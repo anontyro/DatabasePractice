@@ -23,18 +23,31 @@ public class Login {
         String queryCheck ="SELECT password FROM log WHERE password = ?";
         
         try{
-            
+            //sets up a connection to the database
             con = DriverManager.getConnection(url, user, password);
             
+            /*
+            create the prepareStatement for the query to check the username
+            */
             pst = con.prepareStatement(queryUsername);
-            pst.setString(1, username);
-            ResultSet rs = pst.executeQuery();
+            pst.setString(1, username); //used to set the string value of first '?' to username
+            ResultSet rs = pst.executeQuery(); // executes and asks the database
+            /*
+            control statement to check the username using the results obtained
+            from the database, this will just check if it exists if not it will
+            print an error
+            */
             if(rs.next()){
+                /*
+                next the password check is done using similar values and checks 
+                the database once more to ensure all is correct
+                */
                 pst = con.prepareStatement(queryCheck);
                 pst.setString(1, userpass);
                 rs = pst.executeQuery();
+                //nested if statement to check for password
                 if(rs.next()){
-                    System.out.println("logged in correctly! as: " + username);
+                    System.out.println("logged in correctly! as: " + username); //logged in
                 }
                 else{
                     System.out.println("Invalid password");
@@ -50,6 +63,7 @@ public class Login {
         catch(SQLException e){
             System.err.println(e);
         }
+        //will close the connection to the database at the end
         finally{
             con.close();
             
