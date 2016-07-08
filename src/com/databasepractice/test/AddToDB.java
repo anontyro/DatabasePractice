@@ -16,7 +16,7 @@ public class AddToDB {
         
         String url = "jdbc:mysql://localhost:3306/login";
         String user = "root";
-        String password = "hello123";
+        String password = "";
         
         try{
             String username = "Admin";

@@ -16,7 +16,7 @@ public class Login {
         
         String url = "jdbc:mysql://localhost:3306/login";
         String user = "root";
-        String password = "hello123";
+        String password = "";
         String username ="Admin";
         String userpass = "Admin";
         String queryUsername ="SELECT * FROM login WHERE username = ?";

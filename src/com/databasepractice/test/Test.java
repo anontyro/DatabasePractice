@@ -15,8 +15,8 @@ public class Test {
         Statement myStmt = null;
         ResultSet myRs = null;
     
-        String user ="wilko";
-        String pass = "Hello123";
+        String user ="root";
+        String pass = "";
         String url = "jdbc:mysql://mysqlcluster15.registeredsite.com/login_wfr";
 
         try{

@@ -13,7 +13,7 @@ public class Test {
     
     public static void main(String[]args){
         
-        DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr");
+        DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr","wilko");
         
         System.out.println(database.getConnection());
     }
