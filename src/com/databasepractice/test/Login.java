@@ -19,7 +19,7 @@ public class Login {
         String password = "";
         String username ="Admin";
         String userpass = "Admin";
-        String queryUsername ="SELECT * FROM login WHERE username = ?";
+        String queryUsername ="SELECT username FROM login WHERE username = ?";
         String queryCheck ="SELECT password FROM login WHERE password = ?";
         
         try{

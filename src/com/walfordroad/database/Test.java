@@ -5,6 +5,8 @@
  */
 package com.walfordroad.database;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author Alex
@@ -15,6 +17,12 @@ public class Test {
         
         DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr","wilko");
         
-        System.out.println(database.getConnection());
+        try{
+            //database.addToDB();
+            database.login("admin", "admin000");
+        }
+        catch(SQLException e){
+            System.err.println(e.getMessage());
+        }
     }
 }
