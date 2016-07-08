@@ -19,8 +19,8 @@ public class Login {
         String password = "hello123";
         String username ="Admin";
         String userpass = "Admin";
-        String queryUsername ="SELECT * FROM log WHERE username = ?";
-        String queryCheck ="SELECT password FROM log WHERE password = ?";
+        String queryUsername ="SELECT * FROM login WHERE username = ?";
+        String queryCheck ="SELECT password FROM login WHERE password = ?";
         
         try{
             //sets up a connection to the database

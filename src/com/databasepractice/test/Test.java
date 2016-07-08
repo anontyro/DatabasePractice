@@ -15,9 +15,9 @@ public class Test {
         Statement myStmt = null;
         ResultSet myRs = null;
     
-        String user ="root";
-        String pass = "hello123";
-        String url = "jdbc:mysql://localhost:3306/login";
+        String user ="wilko";
+        String pass = "Hello123";
+        String url = "jdbc:mysql://mysqlcluster15.registeredsite.com/login_wfr";
 
         try{
             myConn = DriverManager.getConnection(url, user, pass);
