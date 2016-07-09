@@ -208,7 +208,34 @@ public class DatabaseLogic {
             mycon.close();
         }
     }
-     
+    
+    public String getColumnNames(String table) throws SQLException{
+        if(dbPass.equals("")){
+            dbPass = userInput("Enter database password: ");
+        }
+        String output = "";   
+        String queryColumn = "SELECT * FROM " +table;
+        
+        try{
+            mycon = DriverManager.getConnection(connection, username, dbPass);
+            
+            pst = mycon.prepareStatement(queryColumn);
+            myrs = pst.executeQuery();
+
+            ResultSetMetaData rsmd = myrs.getMetaData();
+
+            for(int i = 1; i <=rsmd.getColumnCount(); i++){
+                output+= rsmd.getColumnName(i) + "\n";
+            }
+        }
+        catch(SQLException e){
+            System.err.println(e.getMessage());
+        }
+        finally{
+            mycon.close();
+        }
+        return output;
+    }
     
     /**
      * getter to return connection String value.
@@ -237,5 +264,7 @@ public class DatabaseLogic {
         
         return user;
     }
+    
+    
     
 }

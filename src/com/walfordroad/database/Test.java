@@ -19,7 +19,8 @@ public class Test {
         
         try{
             //database.addToDB();
-            database.login("admin", "admin000");
+           // database.login("admin", "admin000");
+           System.out.println(database.getColumnNames("login"));
         }
         catch(SQLException e){
             System.err.println(e.getMessage());
