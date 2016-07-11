@@ -19,7 +19,11 @@ public class Login extends DatabaseLogic{
         super(url, database, username, dbPass);
     }
     
-        public void logInto(String loginName, String userpass) throws SQLException{
+    public Login(){
+    }
+    
+        public boolean logInto(String loginName, String userpass) throws SQLException{
+            boolean success = false;
         if(dbPass.equals("")){
             dbPass = userInput("Enter database password: ");
         }
@@ -41,13 +45,16 @@ public class Login extends DatabaseLogic{
                 rs = pst.executeQuery();
                 if(rs.next()){
                     System.out.println("Log in successful, as: " +loginName);
+                    return success = true;
                 }
                 else{
                     System.out.println("Invalid password");
+                    return success = false;
                 }
             }
             else{
                 System.out.println("Invalid username");
+                return success = false;
             }
         }
         catch(SQLException e){
@@ -56,6 +63,7 @@ public class Login extends DatabaseLogic{
         finally{
             mycon.close();
         }
+        return success = false;
     }
     
 }

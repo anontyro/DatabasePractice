@@ -53,6 +53,14 @@ public class DatabaseLogic {
         }
     }
     
+    public DatabaseLogic(){
+        this.username = LoginDetails.username;
+        this.database = LoginDetails.table;
+        this.dbPass = LoginDetails.password;
+        this.url = LoginDetails.database;
+        connection = SQL_CON + url + database;
+    }
+    
     /**
      * method to test the connection to the database to ensure that one can be
      * made.
@@ -76,6 +84,23 @@ public class DatabaseLogic {
         finally{
             mycon.close();
         }
+    }
+    
+    public String testMyConnection() throws SQLException{
+        try{
+            mycon = DriverManager.getConnection(connection, username, dbPass);
+            if(mycon!=null){
+                return "Connected to database";
+            }
+        }
+        catch(SQLException e){
+            return e.getMessage();
+        }
+        finally{
+            mycon.close();
+        }
+        return "Could not connect to database try again";
+    
     }
     
     /**

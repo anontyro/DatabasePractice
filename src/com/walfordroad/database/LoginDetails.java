@@ -12,6 +12,6 @@ package com.walfordroad.database;
 public class LoginDetails {
     public static String username ="wilko";
     public static String password = "Hello123";
-    public static String table = "";
-    public static String database = "";
+    public static String table = "login_wfr";
+    public static String database = "mysqlcluster15.registeredsite.com/";
 }
