@@ -180,7 +180,7 @@ public class DatabaseLogic {
         }
         
         String queryDB ="SELECT "+ selectCol +" FROM "+ table +" WHERE "+selectCol+" =?";
-        
+        System.out.println(queryDB);
         
         try{
             mycon = DriverManager.getConnection(connection, username, dbPass);

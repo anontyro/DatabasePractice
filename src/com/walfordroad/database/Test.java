@@ -20,6 +20,7 @@ public class Test {
         try{
             //database.addToDB();
             //database.login("admin", "admin000");
+            //System.out.println(database.getColumnNames("login").toString());
            System.out.println(database.queryDB("username", "login", "admin"));
         }
         catch(SQLException e){
