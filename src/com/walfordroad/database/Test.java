@@ -15,12 +15,12 @@ public class Test {
     
     public static void main(String[]args){
         
-        DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr","wilko");
+        DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr",LoginDetails.username, LoginDetails.password);
         
         try{
             //database.addToDB();
-           // database.login("admin", "admin000");
-           System.out.println(database.getColumnNames("login"));
+            //database.login("admin", "admin000");
+           System.out.println(database.queryDB("username", "login", "admin"));
         }
         catch(SQLException e){
             System.err.println(e.getMessage());

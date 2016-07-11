@@ -19,13 +19,13 @@ public class DatabaseLogic {
     private final String SQL_LOCAL = "jdbc:mysql://localhost:3306/";
     private String database ="";
     private String url ="";
-    private String connection = "";
-    private String username ="";
-    private String dbPass ="";
-    private Connection mycon = null;
-    private Statement myst = null;
-    private ResultSet myrs = null;
-    private PreparedStatement pst = null;
+    protected String connection = "";
+    protected String username ="";
+    protected String dbPass ="";
+    protected Connection mycon = null;
+    protected Statement myst = null;
+    protected ResultSet myrs = null;
+    protected PreparedStatement pst = null;
     
     /**
      * Constructor that takes three variables to create the connection name and
@@ -34,13 +34,16 @@ public class DatabaseLogic {
      * @param database
      * @param username 
      */
-    public DatabaseLogic(String url, String database, String username){
+    public DatabaseLogic(String url, String database, String username, String dbPass){
         connection = SQL_CON + url + database;
         this.username = username;
         this.database = database;
+        this.dbPass = dbPass;
         this.url = url;
         
-        dbPass = userInput("Enter password: ");
+        if(dbPass.equals("")){
+            dbPass = userInput("Enter password: ");
+        }
         
         try{
             testConnection(username,dbPass);
@@ -170,36 +173,23 @@ public class DatabaseLogic {
    
     }
     
-    public void login(String loginName, String userpass) throws SQLException{
+    public String queryDB(String selectCol, String table, String colValu) throws SQLException{
+        String output ="";
         if(dbPass.equals("")){
             dbPass = userInput("Enter database password: ");
         }
         
-        String queryUsername ="SELECT username FROM login WHERE username =?";
-        String querypass ="SELECT password FROM login WHERE password =?";
+        String queryDB ="SELECT "+ selectCol +" FROM "+ table +" WHERE "+selectCol+" =?";
+        
         
         try{
             mycon = DriverManager.getConnection(connection, username, dbPass);
             
-            pst = mycon.prepareStatement(queryUsername);
-            pst.setString(1, loginName);
+            pst = mycon.prepareStatement(queryDB);
+            pst.setString(1, colValu);
             ResultSet rs = pst.executeQuery();
             
-            if(rs.next()){
-                
-                pst = mycon.prepareStatement(querypass);
-                pst.setString(1, userpass);
-                rs = pst.executeQuery();
-                if(rs.next()){
-                    System.out.println("Log in successful, as: " +loginName);
-                }
-                else{
-                    System.out.println("Invalid password");
-                }
-            }
-            else{
-                System.out.println("Invalid username");
-            }
+            output = rs.getString(selectCol);
         }
         catch(SQLException e){
             System.err.println(e.getMessage());
@@ -207,14 +197,17 @@ public class DatabaseLogic {
         finally{
             mycon.close();
         }
+        
+        return output;
     }
     
-    public String getColumnNames(String table) throws SQLException{
+    public Collection getColumnNames(String table) throws SQLException{
         if(dbPass.equals("")){
             dbPass = userInput("Enter database password: ");
         }
-        String output = "";   
+        
         String queryColumn = "SELECT * FROM " +table;
+        ArrayList<String>columnList = new ArrayList<>();
         
         try{
             mycon = DriverManager.getConnection(connection, username, dbPass);
@@ -225,7 +218,7 @@ public class DatabaseLogic {
             ResultSetMetaData rsmd = myrs.getMetaData();
 
             for(int i = 1; i <=rsmd.getColumnCount(); i++){
-                output+= rsmd.getColumnName(i) + "\n";
+                columnList.add(rsmd.getColumnName(i));
             }
         }
         catch(SQLException e){
@@ -234,7 +227,7 @@ public class DatabaseLogic {
         finally{
             mycon.close();
         }
-        return output;
+        return columnList;
     }
     
     /**
@@ -255,7 +248,7 @@ public class DatabaseLogic {
     }
     
     //utility method that will allow user input
-    private String userInput(String prompt){
+    protected String userInput(String prompt){
         String user ="";
         
         Scanner input = new Scanner(System.in);
