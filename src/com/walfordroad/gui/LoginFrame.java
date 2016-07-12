@@ -44,6 +44,7 @@ public class LoginFrame extends QuitableJFrame{
         this.setVisible(true);
     }
     
+    
     private void setupMenubar(MenuBar menu){
         
         //new menubar
@@ -54,6 +55,7 @@ public class LoginFrame extends QuitableJFrame{
         
         JMenuItem quitItem = new JMenuItem("Quit");
     }
+    
     
     public static void main(String[] args){
         LoginFrame theFrame = new LoginFrame();

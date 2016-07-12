@@ -10,14 +10,15 @@ import java.util.*;
 import java.io.*;
 
 /**
- * Class to carry out the heavily lifting when connecting to a mysql database
+ * Abstract class to carry out the heavily lifting when connecting to a mysql database
+ * contains all the logic for database integration
  * @author Alex
  */
-public class DatabaseLogic {
+public abstract class DatabaseLogic {
     
     private final String SQL_CON = "jdbc:mysql://";
     private final String SQL_LOCAL = "jdbc:mysql://localhost:3306/";
-    private String database ="";
+    private String table ="";
     private String url ="";
     protected String connection = "";
     protected String username ="";
@@ -28,16 +29,17 @@ public class DatabaseLogic {
     protected PreparedStatement pst = null;
     
     /**
-     * Constructor that takes three variables to create the connection name and
+     * Constructor that takes four variables to create the connection name and
      * save the username.
-     * @param url
-     * @param database
-     * @param username 
+     * @param url database address.
+     * @param table which table you would like to connect to.
+     * @param username username to log into the database.
+     * @param dbPass  the password required to log into the database.
      */
-    public DatabaseLogic(String url, String database, String username, String dbPass){
-        connection = SQL_CON + url + database;
+    public DatabaseLogic(String url, String table, String username, String dbPass){
+        connection = SQL_CON + url + table;
         this.username = username;
-        this.database = database;
+        this.table = table;
         this.dbPass = dbPass;
         this.url = url;
         
@@ -55,10 +57,10 @@ public class DatabaseLogic {
     
     public DatabaseLogic(){
         this.username = LoginDetails.username;
-        this.database = LoginDetails.table;
+        this.table = LoginDetails.table;
         this.dbPass = LoginDetails.password;
         this.url = LoginDetails.database;
-        connection = SQL_CON + url + database;
+        connection = SQL_CON + url + table;
     }
     
     /**
@@ -86,6 +88,12 @@ public class DatabaseLogic {
         }
     }
     
+    /**
+     * no parameter method to test the database connection using the values
+     * already assigned by the constructor
+     * @return String to inform of how the test went
+     * @throws SQLException finally will throw so must be caught
+     */
     public String testMyConnection() throws SQLException{
         try{
             mycon = DriverManager.getConnection(connection, username, dbPass);

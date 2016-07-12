@@ -15,8 +15,8 @@ import java.sql.SQLException;
  */
 public class Login extends DatabaseLogic{
     
-    public Login(String url, String database, String username, String dbPass) {
-        super(url, database, username, dbPass);
+    public Login(String url, String table, String username, String dbPass) {
+        super(url, table, username, dbPass);
     }
     
     public Login(){

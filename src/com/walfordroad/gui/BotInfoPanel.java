@@ -23,7 +23,7 @@ public class BotInfoPanel extends JPanel implements ActionListener{
     protected Login login = new Login();
     
     public BotInfoPanel(){
-        this.setLayout(new GridLayout(1,2));
+        this.setLayout(new FlowLayout());
         
         this.add(databaseStatus = new JTextField("Server status: "));
         databaseStatus.setEditable(false);

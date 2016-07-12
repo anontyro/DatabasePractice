@@ -20,9 +20,17 @@ import javax.swing.border.EmptyBorder;
  * @author Alex
  */
 public class MainFrame extends QuitableJFrame{
-    public MainFrame(){
+    
+    protected String username = "";
+    private LoginPanel logPanel;
+    
+    public MainFrame(LoginPanel logPanel){
 
-        super("Login", 1000, 500);
+        super(logPanel.getUsername() + "'s" +" Home", 1000, 500);
+        
+        this.logPanel = logPanel;
+        
+        username = logPanel.getUsername();
 
         this.setLocationRelativeTo(null);
 
@@ -33,11 +41,12 @@ public class MainFrame extends QuitableJFrame{
         //
         MainPanel mPanel = new MainPanel();
 
-
+        TopInfoPanel tiPanel = new TopInfoPanel(this, logPanel);
         BotInfoPanel connectionStatus = new BotInfoPanel();
         //
         this.setupMenubar(menu);
-
+        
+        this.getContentPane().add(tiPanel,BorderLayout.NORTH);
         this.getContentPane().add(mPanel,BorderLayout.CENTER);
         this.getContentPane().add(connectionStatus, BorderLayout.SOUTH);
         //

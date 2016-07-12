@@ -27,12 +27,15 @@ public class LoginPanel extends JPanel implements ActionListener{
     private LoginFrame logFrame;
     private Login login = new Login();
     
-    public LoginPanel(LoginFrame lFrame){
-        
+    /**
+     * Constructor that takes the LoginFrame parameter to allow passing of data
+     * between the two, constructs the panel in GridLayout.
+     * @param logFrame LoginFrame to change visability and get message boxes
+     */
+    public LoginPanel(LoginFrame logFrame){
+        this.logFrame = logFrame;
         this.setLayout(new GridLayout(3,2));
         
-
-
         // creates the label and box to enter the user details into
         this.add(new JLabel("Username: "));
         this.add(username = new JTextField());
@@ -40,16 +43,25 @@ public class LoginPanel extends JPanel implements ActionListener{
         this.add(new JLabel ("Password:"));
         this.add(password = new JPasswordField());
         
+        //login button created
         this.add(loginButton = new JButton("Login"));
+        /*
+        login button action using lambda to check that the method returns
+        true and then will open a new frame and hide this one then open the MainFrame
+        */
         loginButton.addActionListener((ActionEvent e) ->{
             try{
                 boolean logSuccess = login.logInto(username.getText(), password.getText());
                 if(logSuccess = true){
-                    MainFrame theMain = new MainFrame();
-                    lFrame.setVisible(false);
+                    MainFrame theMain = new MainFrame(this);
+                    setUsername("");
+                    resetPassword();
+                    showOrHide(false);
+                    //logFrame.setVisible(false);
                     
 
                 }
+                //If login is not successful 
                 else{
                     logFrame.telUser("Unable to login try again");
 
@@ -61,8 +73,20 @@ public class LoginPanel extends JPanel implements ActionListener{
         });
         
         this.add(helpButton = new JButton("Help"));
-        
-        
+           
+    }
+    public void setUsername(String username){
+        this.username.setText(username);
+    }
+    public String getUsername(){
+        return username.getText();
+    }
+    
+    public void resetPassword(){
+        password.setText("");
+    }
+    public void showOrHide(boolean boo){
+        logFrame.setVisible(boo);
     }
 
     @Override
