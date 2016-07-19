@@ -12,7 +12,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 /**
- *
+ * creates the main frame for the Swing window which will have items added to
+ * build the window
  * @author Alex
  */
 public class LoginFrame extends QuitableJFrame{

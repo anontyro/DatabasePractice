@@ -6,28 +6,24 @@
 package com.walfordroad.gui.mainpage;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 /**
- *
+ * The main
  * @author Alex
  */
 public class MainPanel extends JPanel{
-    final static boolean SHOULDFILL = true;
-    final static boolean SHOULDWEIGHTX = true;
-    final static boolean RIGHT_TO_LEFT = false;
+    private JButton POSButton,ReportButton;
+
     
     public MainPanel(){
-        if(RIGHT_TO_LEFT){
-            this.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
-        
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        if(SHOULDFILL){
-            c.fill = GridBagConstraints.HORIZONTAL;
-        }
-        
+        this.setLayout(new GridLayout(3,2));
+
+        this.add(POSButton = new JButton("POS"));
+        POSButton.addActionListener((ActionEvent e) ->{
+            
+        });
         this.add(new JLabel("Mainpage"));
         this.add(new JLabel("Status: "));
         

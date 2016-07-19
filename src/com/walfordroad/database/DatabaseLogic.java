@@ -205,7 +205,14 @@ public abstract class DatabaseLogic {
         }
    
     }
-    
+    /**
+     * 
+     * @param selectCol
+     * @param table
+     * @param colValu
+     * @return
+     * @throws SQLException 
+     */
     public String queryDB(String selectCol, String table, String colValu) throws SQLException{
         String output ="";
         if(dbPass.equals("")){
@@ -233,7 +240,13 @@ public abstract class DatabaseLogic {
         
         return output;
     }
-    
+    /**
+     * A query to find the column names from the table and return the values as
+     * a collection.
+     * @param table
+     * @return
+     * @throws SQLException 
+     */
     public Collection getColumnNames(String table) throws SQLException{
         if(dbPass.equals("")){
             dbPass = userInput("Enter database password: ");
@@ -263,6 +276,7 @@ public abstract class DatabaseLogic {
         return columnList;
     }
     
+    
     /**
      * getter to return connection String value.
      * @return 
@@ -291,6 +305,37 @@ public abstract class DatabaseLogic {
         return user;
     }
     
+    public Collection getColVals(String col, String table) throws SQLException{
+        ArrayList<String>colReturn = new ArrayList<>();
+        
+        String query = "SELECT " +col +" FROM " + table;
+        
+        String test ="";
+        
+        try{
+            mycon = DriverManager.getConnection(connection, username, dbPass);
+            
+            pst = mycon.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            
+            while(rs.next()){
+                colReturn.add(rs.getString(col));
+                test += rs.getString(col);
+                
+             
+            }
+        }
+        catch(SQLException e){
+            System.err.println(e.getMessage());
+        }
+        finally{
+            mycon.close();
+        }
+        
+        
+        
+        return (Collection)colReturn;
+    }
     
     
 }

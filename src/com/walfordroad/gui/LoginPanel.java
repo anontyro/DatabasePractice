@@ -16,7 +16,8 @@ import com.walfordroad.gui.mainpage.MainFrame;
 import java.sql.SQLException;
 
 /**
- *
+ *The main panel from login that will contain all the details for logging into
+ * the application
  * @author Alex
  */
 public class LoginPanel extends JPanel implements ActionListener{

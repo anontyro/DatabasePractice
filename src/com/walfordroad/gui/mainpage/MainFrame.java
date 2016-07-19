@@ -16,7 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.border.EmptyBorder;
 
 /**
- *
+ * Creates the main window frame which the user will land on after they login
+ * this is the main hub and will allow the user to access other items
  * @author Alex
  */
 public class MainFrame extends QuitableJFrame{

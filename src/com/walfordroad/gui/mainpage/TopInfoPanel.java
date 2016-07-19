@@ -16,7 +16,8 @@ import java.awt.event.FocusListener;
 import java.time.ZonedDateTime;
 
 /**
- *
+ * top menu from the main that contains the basic details for the user
+ * from the logout and information that may be useful to the user
  * @author Alex
  */
 public class TopInfoPanel extends JPanel implements ActionListener,FocusListener{

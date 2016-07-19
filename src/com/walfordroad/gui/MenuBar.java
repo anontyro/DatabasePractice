@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
+ *The actions for the menubar which will be added eventually
  * @author Alex
  */
 public class MenuBar implements ActionListener{
