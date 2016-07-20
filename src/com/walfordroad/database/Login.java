@@ -24,15 +24,15 @@ public class Login extends DatabaseLogic{
     
         public boolean logInto(String loginName, String userpass) throws SQLException{
             boolean success = false;
-        if(dbPass.equals("")){
-            dbPass = userInput("Enter database password: ");
+        if( getDbPass().equals("")){
+            setDbPass(userInput("Enter database password: "));
         }
         
         String queryUsername ="SELECT username FROM login WHERE username =?";
         String querypass ="SELECT password FROM login WHERE password =?";
         
         try{
-            mycon = DriverManager.getConnection(connection, username, dbPass);
+            mycon = DriverManager.getConnection(connection, getUsername(), getDbPass());
             
             pst = mycon.prepareStatement(queryUsername);
             pst.setString(1, loginName);

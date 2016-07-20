@@ -13,26 +13,37 @@ import java.util.*;
  * @author Alex
  */
 public class Test {
-    
-   public static void main(String[]args){
-        ArrayList<String>newArray = new ArrayList<>();
+
+    public static void main(String[] args) {
+        ArrayList<String> newArray = new ArrayList<>();
+        String test = " vanilla \n"
+                + "strawberry \n"
+                + "strawberry \n"
+                + "chocolate \n"
+                + "chocolate \n"
+                + "vanilla \n"
+                + "banana \n";
         //DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr",LoginDetails.username, LoginDetails.password);
-        PointOfSales database = new PointOfSales();
+        // PointOfSales database = new PointOfSales();
+        PointOfSales pos = new PointOfSales();
+        Report database = new Report(test);
+        System.out.println(database.salesOfFlavour("chocolate"));
+        database.toFile();
+
        //Login logDB = new Login();
-     //public void testMethoid(){   
-       // try{
+        //public void testMethoid(){   
+       // try {
             //System.out.println(logDB.testMyConnection());
-            //database.testMyConnection();
-            
+            //System.out.println(database.testMyConnection());
+            //database.addSales("chocolate");
             //newArray = (ArrayList)database.getColVals("product", "sales");
             //System.out.println(newArray.toString());
             //database.addToDB();
             //database.login("admin", "admin000");
             //System.out.println(database.getColumnNames("login").toString());
-          // System.out.println(database.queryDB("username", "login", "admin"));
-       // }
-       // catch(SQLException e){
-      //     System.err.println(e.getMessage());
+            // System.out.println(database.queryDB("username", "login", "admin"));
+       // } catch (SQLException e) {
+            //System.err.println(e.getMessage());
       //  }
     }
 }

@@ -22,8 +22,8 @@ public abstract class DatabaseLogic {
     private String table = "";
     private String url = "";
     protected String connection = "";
-    protected String username = "";
-    protected String dbPass = "";
+    private String username = "";
+    private String dbPass = "";
     protected Connection mycon = null;
     protected Statement myst = null;
     protected ResultSet myrs = null;
@@ -59,12 +59,12 @@ public abstract class DatabaseLogic {
     public DatabaseLogic() {
         try {
             ArrayList<String> loginDetails = (ArrayList<String>) readFile("C:\\Users\\Alex\\Desktop\\db login.txt");
-            
+
             this.username = loginDetails.get(0);
             this.dbPass = loginDetails.get(1);
             this.table = loginDetails.get(2);
             this.url = loginDetails.get(3);
-            
+
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -85,7 +85,7 @@ public abstract class DatabaseLogic {
      */
     public void testConnection(String username, String password) throws SQLException {
         String output = "";
-        this.username = username;
+        this.setUsername(username);
 
         try {
             mycon = DriverManager.getConnection(connection, username, password);
@@ -108,7 +108,7 @@ public abstract class DatabaseLogic {
      */
     public String testMyConnection() throws SQLException {
         try {
-            mycon = DriverManager.getConnection(connection, username, dbPass);
+            mycon = DriverManager.getConnection(connection, getUsername(), getDbPass());
             if (mycon != null) {
                 return "Connected to database";
             }
@@ -179,8 +179,8 @@ public abstract class DatabaseLogic {
                 + "(" + valuesToPlace + ")";
 
         //requests the password from the user, used to login if none exists
-        if (dbPass.equals("")) {
-            dbPass = userInput("Enter password: ");
+        if (getDbPass().equals("")) {
+            setDbPass(userInput("Enter password: "));
         }
 
         // if any of the arrays are not inialized will exit after this error
@@ -194,7 +194,7 @@ public abstract class DatabaseLogic {
          */
         try {
             //used to initilise the connection to the database
-            mycon = DriverManager.getConnection(connection, username, dbPass);
+            mycon = DriverManager.getConnection(connection, getUsername(), getDbPass());
 
             //set the prepareStatement using the values above
             pst = mycon.prepareStatement(preparedUpdate);
@@ -224,15 +224,15 @@ public abstract class DatabaseLogic {
      */
     public String queryDB(String selectCol, String table, String colValu) throws SQLException {
         String output = "";
-        if (dbPass.equals("")) {
-            dbPass = userInput("Enter database password: ");
+        if (getDbPass().equals("")) {
+            setDbPass(userInput("Enter database password: "));
         }
 
         String queryDB = "SELECT " + selectCol + " FROM " + table + " WHERE " + selectCol + " =?";
         System.out.println(queryDB);
 
         try {
-            mycon = DriverManager.getConnection(connection, username, dbPass);
+            mycon = DriverManager.getConnection(connection, getUsername(), getDbPass());
 
             pst = mycon.prepareStatement(queryDB);
             pst.setString(1, colValu);
@@ -257,15 +257,15 @@ public abstract class DatabaseLogic {
      * @throws SQLException
      */
     public Collection getColumnNames(String table) throws SQLException {
-        if (dbPass.equals("")) {
-            dbPass = userInput("Enter database password: ");
+        if (getDbPass().equals("")) {
+            setDbPass(userInput("Enter database password: "));
         }
 
         String queryColumn = "SELECT * FROM " + table;
         ArrayList<String> columnList = new ArrayList<>();
 
         try {
-            mycon = DriverManager.getConnection(connection, username, dbPass);
+            mycon = DriverManager.getConnection(connection, getUsername(), getDbPass());
 
             pst = mycon.prepareStatement(queryColumn);
             myrs = pst.executeQuery();
@@ -321,7 +321,7 @@ public abstract class DatabaseLogic {
         String test = "";
 
         try {
-            mycon = DriverManager.getConnection(connection, username, dbPass);
+            mycon = DriverManager.getConnection(connection, getUsername(), getDbPass());
 
             pst = mycon.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
@@ -370,6 +370,57 @@ public abstract class DatabaseLogic {
             }
         }
         return outputCol;
+    }
+
+    public static void writeToFile(String filename, String[] output) {
+        PrintWriter out = null;
+
+        try {
+            File outFile = new File(filename);
+
+            FileWriter fout = new FileWriter(outFile);
+            BufferedWriter bout = new BufferedWriter(fout);
+            out = new PrintWriter(bout);
+
+            for (String x : output) {
+                out.println(x);
+            }
+            out.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the dbPass
+     */
+    public String getDbPass() {
+        return dbPass;
+    }
+
+    /**
+     * @param dbPass the dbPass to set
+     */
+    public void setDbPass(String dbPass) {
+        this.dbPass = dbPass;
     }
 
 }

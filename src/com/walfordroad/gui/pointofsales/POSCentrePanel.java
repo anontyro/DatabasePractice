@@ -15,7 +15,7 @@ import java.util.*;
  * @author Alex
  */
 public class POSCentrePanel extends JPanel{
-
+    JButton report, sale;
 
     public POSCentrePanel(POSCentrePanelActionControls actions) {
         
@@ -26,6 +26,15 @@ public class POSCentrePanel extends JPanel{
             btn.addActionListener(actions);
             this.add(btn);
         }
+        
+        report = new JButton("Report");
+        report.addActionListener(actions);
+        
+        sale = new JButton("Sale");
+        sale.addActionListener(actions);
+        
+        this.add(report);
+        this.add(sale);
 
     }
     
