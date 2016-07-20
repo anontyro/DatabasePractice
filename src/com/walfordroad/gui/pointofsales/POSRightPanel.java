@@ -9,7 +9,8 @@ import java.text.DecimalFormat;
 import javax.swing.*;
 
 /**
- * Panel that sets up the box on the right of the screen 
+ * Panel that sets up the box on the right of the screen
+ *
  * @author Alex
  */
 public class POSRightPanel extends JPanel {
@@ -47,9 +48,19 @@ public class POSRightPanel extends JPanel {
         return output;
     }
 
+    public void removeLastLine() { //currently should remove the last line but not the total value yet
+        try {
+            String content = saleList.getDocument().getText(0, saleList.getDocument().getLength());
+            int lastLineBreak = content.lastIndexOf('\n');
+            saleList.getDocument().remove(lastLineBreak, saleList.getDocument().getLength() - lastLineBreak);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public void setTotal(String value) {
-        double valOut =Double.parseDouble(value);
-        
+        double valOut = Double.parseDouble(value);
+
         totalSaleValue += valOut;
         value = new DecimalFormat("$#.00").format(totalSaleValue);
         total.setText("Total: " + value);

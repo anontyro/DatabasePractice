@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.walfordroad.gui.mainpage;
+
+package com.walfordroad.gui.pointofsales;
+
 
 import com.walfordroad.gui.LoginFrame;
 import java.awt.event.*;
@@ -57,7 +54,6 @@ public class QuitableJFrame  extends JFrame implements WindowListener{
                 JOptionPane.YES_NO_CANCEL_OPTION);
         if(result == JOptionPane.YES_OPTION){
             this.setVisible(false);
-            LoginFrame login = new LoginFrame();
         }
     }
     
@@ -121,4 +117,6 @@ public class QuitableJFrame  extends JFrame implements WindowListener{
         
     }
     
+
+
 }

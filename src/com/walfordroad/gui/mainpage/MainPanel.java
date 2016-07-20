@@ -5,6 +5,7 @@
  */
 package com.walfordroad.gui.mainpage;
 
+import com.walfordroad.gui.pointofsales.POSFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
@@ -22,7 +23,7 @@ public class MainPanel extends JPanel{
 
         this.add(POSButton = new JButton("POS"));
         POSButton.addActionListener((ActionEvent e) ->{
-            
+            POSFrame posFrame = new POSFrame();
         });
         this.add(new JLabel("Mainpage"));
         this.add(new JLabel("Status: "));

@@ -6,7 +6,6 @@
 package com.walfordroad.gui.pointofsales;
 
 import com.walfordroad.database.PointOfSales;
-import com.walfordroad.gui.QuitableJFrame;
 import java.awt.BorderLayout;
 
 /**
