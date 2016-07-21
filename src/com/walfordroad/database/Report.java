@@ -5,12 +5,14 @@
  */
 package com.walfordroad.database;
 
+import java.io.File;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
-import java.util.stream.Stream;
 
 /**
+ * This class contains the logic for the Report output found in pointofsales
+ * package which is the button in POSCentrePanel
  *
  * @author Alex
  */
@@ -18,10 +20,21 @@ public class Report extends DatabaseLogic {
 
     private String reportString = "";
     private Map<String, Integer> totalSales = new HashMap<>();
+    PointOfSales pos;
 
     public Report(String reportString) {
         super();
         this.reportString = reportString;
+    }
+
+    /**
+     *
+     */
+    public void saveToDB() {
+        for (int i = 0; i < PointOfSales.productsList.size(); i++) {
+            salesOfFlavour(PointOfSales.productsList.get(i));
+
+        }
     }
 
     /**
@@ -51,49 +64,97 @@ public class Report extends DatabaseLogic {
         return output;
     }
 
+    /**
+     * Void method that will print the report data to a file in the reports
+     * folder in the project file.
+     */
     public void toFile() {
-        String filename = ".//reports//"+ "Report for ";
-        // filename += (Date.from(java.time.ZonedDateTime.now().toInstant())).toString() +".rpt";
+        String filename = ".//reports//" + "Report for ";
         String date = (Date.from(java.time.ZonedDateTime.now().toInstant())).toString();
         date = date.substring(0, 10);
-        filename += date+".rpt";
+        filename += date + ".rpt";
         System.out.println(filename);
         String output = "Total sales are as follows: \n";
+        File file = new File(filename);
 
         for (int i = 0; i < PointOfSales.productsList.size(); i++) {
             output += salesOfFlavour(PointOfSales.productsList.get(i)) + "\n";
         }
         String[] arrayOut = output.split("\n");
-        DatabaseLogic.writeToFile(filename, arrayOut);
 
+        if (!file.exists()) {
+            DatabaseLogic.writeToFile(filename, arrayOut);
+            System.out.println("New file to create");
+        } else {
+            DatabaseLogic.appendToFile(filename, arrayOut);
+            System.out.println("Appending to file");
+        }
     }
 
     /**
-     * Method to add the total sales to the selected colomns in the SQL database
-     * will push the values to the database, not currently working.
+     * Method to add all the sales currently in the map to the database.
      *
-     * @param flavour check against the map to find the sales and insert into
-     * this colomn
-     * @throws SQLException
+     * @throws SQLException close command required so will throw if cannot close
+     * correctly
      */
-    public void addSales(String flavour) throws SQLException {
+    public void addSales() throws SQLException {
+        boolean stocklistUpdate = false;
         Connection mycon = null;
         PreparedStatement pst = null;
-        int noSales = totalSales.get(flavour);
-        flavour = flavour.trim();
+        //int noSales = totalSales.get(flavour);
+        // flavour = flavour.trim();
 
-        String query = "UPDATE sales SET Total_sales = " + noSales
-                + " WHERE Product = " + flavour;
-
-        System.out.println(query);
-
+        // String query = "UPDATE sales SET totalsales = " + "(" + noSales + ")"
+        //  + " WHERE product = '" + flavour + "'";
+        //main body of the method that will try to update the database
         try {
-            mycon = DriverManager.getConnection(super.connection, super.getUsername(), super.getDbPass());
+            //setup the connection pulling details from the DatabaseLogic.class
+            mycon = DriverManager.getConnection(super.connection,
+                    super.getUsername(), super.getDbPass());
+            /*
+             for loop to add all of the current sales to the saved database sales
+            
+             */
+            for (int i = 0; i < PointOfSales.productsList.size(); i++) {
+                int databaseSales = PointOfSales.stockList.get(i); //database sales count
+                int totalnoSales = totalSales.get(PointOfSales.productsList.get(i)); //local sales count
+                if (databaseSales != totalnoSales) { //if they do no equal then do this
+                    databaseSales += totalnoSales; //add together the values
+                    //put the new value in the map
+                    totalSales.put(PointOfSales.productsList.get(i), databaseSales);
 
-            pst = mycon.prepareStatement(query);
+                    //change stocklistUpdate to true which is used to refresh the local ArrayList
+                    if (stocklistUpdate == false) {
+                        stocklistUpdate = true;
+                    }
+                }
+            }
+
+            /*
+             for loop that will add all of the products from the map total sales to
+             the database
+             */
+            for (int i = 0; i < PointOfSales.productsList.size(); i++) {
+                String prepState = "UPDATE sales SET totalsales = "
+                        + totalSales.get(PointOfSales.productsList.get(i))
+                        + "WHERE product = '" + PointOfSales.productsList + "'";
+
+                pst = mycon.prepareStatement(prepState);
+            }
+
+            // pst = mycon.prepareStatement(query);
             pst.executeUpdate();
+
+            //if the stocklist needs to be updated will pull new values from the server
+            if (stocklistUpdate == true) {
+                pos.createStockList();
+                stocklistUpdate = false;
+            }
+            
+            totalSales.clear(); //after update the map is emptied 
+
             System.out.println("Database updated");
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
         } finally {
             mycon.close();

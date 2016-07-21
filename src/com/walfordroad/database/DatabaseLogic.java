@@ -147,7 +147,7 @@ public abstract class DatabaseLogic {
         values = new String[noCols];
 
         /*
-         enhanced for loop used to generate all the coloums the user wants to add
+         for loop used to generate all the coloums the user wants to add
          asking for the coloumn name (same as in database) followed by the requested
          value for that coloum, both put into respective arrays to be called later
          */
@@ -390,6 +390,29 @@ public abstract class DatabaseLogic {
             System.err.println(e.getMessage());
         } finally {
             if (out != null) {
+                out.close();
+            }
+        }
+    }
+    
+    public static void appendToFile(String filename, String[] output){
+        PrintWriter out = null;
+        
+        try{
+            FileWriter fout = new FileWriter(filename, true);
+            BufferedWriter bout = new BufferedWriter(fout);
+            out = new PrintWriter(bout);
+            
+            for(String x : output){
+                out.println(x);
+            }
+            out.close();
+        }
+        catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        finally{
+            if(out !=null){
                 out.close();
             }
         }

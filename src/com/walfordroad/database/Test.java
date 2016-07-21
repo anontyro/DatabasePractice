@@ -22,20 +22,22 @@ public class Test {
                 + "chocolate \n"
                 + "chocolate \n"
                 + "vanilla \n"
-                + "banana \n";
+                + "banana \n"
+                + "banana \n"
+                + "rum and raisin";
         //DatabaseLogic database = new DatabaseLogic("mysqlcluster15.registeredsite.com/","login_wfr",LoginDetails.username, LoginDetails.password);
         // PointOfSales database = new PointOfSales();
         PointOfSales pos = new PointOfSales();
         Report database = new Report(test);
-        System.out.println(database.salesOfFlavour("chocolate"));
+        System.out.println(database.salesOfFlavour("vanilla"));
         database.toFile();
 
        //Login logDB = new Login();
         //public void testMethoid(){   
-       // try {
+        //try {
             //System.out.println(logDB.testMyConnection());
             //System.out.println(database.testMyConnection());
-            //database.addSales("chocolate");
+            //database.addSales("vanilla");
             //newArray = (ArrayList)database.getColVals("product", "sales");
             //System.out.println(newArray.toString());
             //database.addToDB();
@@ -44,6 +46,6 @@ public class Test {
             // System.out.println(database.queryDB("username", "login", "admin"));
        // } catch (SQLException e) {
             //System.err.println(e.getMessage());
-      //  }
+       // }
     }
 }
