@@ -66,5 +66,9 @@ public class POSRightPanel extends JPanel {
         total.setText("Total: " + value);
 
     }
+    public String getTotal(){
+        
+        return total.getText();
+    }
 
 }

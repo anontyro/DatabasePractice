@@ -22,6 +22,7 @@ public class POSCentrePanelActionControls implements ActionListener {
 
     private POSRightPanel rightPane;
     private Report reportOut;
+    private POSFrame POSFrame;
 
     public POSCentrePanelActionControls(POSRightPanel rightPane) {
         this.rightPane = rightPane;
@@ -29,9 +30,11 @@ public class POSCentrePanelActionControls implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        
         String command = e.getActionCommand();
 
+        System.out.println(command);
+        
         for (int i = 0; i < PointOfSales.priceList.size(); i++) {
             if (command.equals(PointOfSales.productsList.get(i))) {
                 //set vars for the output
@@ -46,7 +49,7 @@ public class POSCentrePanelActionControls implements ActionListener {
 
                 System.out.println(command + " is : " + output); //for debug
             }
-        }
+        }//main middle POSCentrePanel buttons
         if(command.equals("Report")){
             String report = rightPane.getSaleList();
             report = report.replaceAll("[^A-Za-z\\n\\s]", "");
@@ -55,9 +58,19 @@ public class POSCentrePanelActionControls implements ActionListener {
             System.out.println(report);
         }
         else if(command.equals("Sale")){
+            POSSalePanel.setTotal(rightPane.getTotal());
+            POSFrame.displaySale();
+        }//main middle panel POSSalesPanel buttons
+        else if(command.equals("Cash")){
+            POSFrame.displayCash();
+        }
+        else if(command.equals("Card")){
+            POSFrame.displayCard();
+        }
+        else if(command.equals("Void")){
             
         }
-        
+
         
     }
 
